@@ -26,6 +26,6 @@ class Actors {
 
         $actors = $stmt->fetchAll();
 
-        echo $templates->render('actors', [ 'actors' => $actors ]);        
+        echo $templates->render('sakila::actors', [ 'actors' => $actors ]);        
     }
 }

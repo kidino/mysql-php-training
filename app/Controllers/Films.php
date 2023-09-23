@@ -14,6 +14,6 @@ class Films {
 
         $films = $stmt->fetchAll();
 
-        echo $templates->render('films', [ 'films' => $films ]);        
+        echo $templates->render('sakila::films', [ 'films' => $films ]);        
     }
 }

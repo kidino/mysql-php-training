@@ -3,13 +3,29 @@ namespace App\Controllers;
 
 class Auth { 
 
+    function check_logged_in() {
+        if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == true)) {
+            header('Location: /app/films');
+            exit();
+        }
+    }
+
     function register() {
         global $templates;
-        echo $templates->render('register');
+
+        // do not need to register because user is logged in.
+        // use must logout first
+        $this->check_logged_in();
+
+        echo $templates->render('auth::register');
     }
 
     function process_register() {
         global $db;
+        
+        // do not need to register because user is logged in.
+        // use must logout first
+        $this->check_logged_in();
 
         $username = $_POST["username"];
         $password = $_POST["password"];
@@ -34,23 +50,32 @@ class Auth {
 
     function login() {
         global $templates;
-        echo $templates->render('login');
+
+        // do not need to login because user is logged in.
+        // use must logout first
+        $this->check_logged_in();
+
+        echo $templates->render('auth::login');
 
     }
 
     public function process_login() {
         global $db;
 
+        // do not need to login because user is logged in.
+        // use must logout first
+        $this->check_logged_in();
+
         $username = $_POST["username"];
         $password = $_POST["password"];
-   
+
         if (!empty($username) && !empty($password)) {
             // Prepare an SQL statement to fetch user data from the database
             $stmt = $db->prepare("SELECT id, username, password FROM users WHERE username = ?");
             $stmt->execute([$username]);
-   
+
             $user = $stmt->fetch();
-   
+
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['loggedin'] = true;
                 $msg = urlencode("Login successful. Welcome $user[username].");

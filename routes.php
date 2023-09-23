@@ -4,6 +4,17 @@ $router = new \Bramus\Router\Router();
 
 // routing rules
 
+$router->get('/', 'App\Controllers\Home@index');
+$router->get('/login', 'App\Controllers\Home@login');
+
+$router->get('/auth/login', 'App\Controllers\Auth@login');
+$router->post('/auth/login', 'App\Controllers\Auth@process_login');
+
+$router->get('/auth/register', 'App\Controllers\Auth@register');
+$router->post('/auth/register', 'App\Controllers\Auth@process_register');
+
+$router->get('/auth/logout', 'App\Controllers\Auth@logout');
+
 $router->before('GET|POST', '/app/.*', function() {
     if (!isset($_SESSION['loggedin'])) {
         $msg = urlencode("You do not have access to this page, or session has expired.");
@@ -18,19 +29,7 @@ $router->before('GET|POST', '/app/.*', function() {
     header("Pragma: no-cache");    
 });
 
-$router->get('/', 'App\Controllers\Home@index');
-$router->get('/login', 'App\Controllers\Home@login');
-
-$router->get('/auth/login', 'App\Controllers\Auth@login');
-$router->post('/auth/login', 'App\Controllers\Auth@process_login');
-
-$router->get('/auth/register', 'App\Controllers\Auth@register');
-$router->post('/auth/register', 'App\Controllers\Auth@process_register');
-
-$router->get('/auth/logout', 'App\Controllers\Auth@logout');
-
 $router->get('/app/films', 'App\Controllers\Films@index');
-
 $router->get('/app/actors', 'App\Controllers\Actors@index');
 
 // $router->get('/', function(){ echo "ROUTER IS WORKING"; });
